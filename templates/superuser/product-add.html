@@ -1,0 +1,135 @@
+
+{% extends 'superuser/adminbase.html' %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block productclass %}
+text-light
+{% endblock %}
+
+{% block tablecontent %} 
+
+    Product updation
+
+{% endblock %}
+
+
+{% block maincontent %}
+        
+<div class="card w-75 mx-auto">
+    <div class="card-body shadow-sm">
+    
+        <form action="" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+
+
+            
+            <div class="form-group">
+                <label for="">Product Name</label>
+                {% render_field form.product_name placeholder="Product Name" class="form-control" id="Product_name"  %}
+            </div>
+            <div class="form-group d-none">
+                <label for="">Slug name</label>
+                {% render_field form.slug placeholder="slug field" class="form-control" id="Slug" %}
+            </div>
+            <div class="form-group">
+                <label for="">Category_id</label>
+                {% render_field form.category_id placeholder="Category Id" class="form-control text-white" id="category_id"  %}
+            </div>
+            <div class="form-group">
+                <label for="">description</label>
+                {% render_field form.description placeholder="description" class="form-control"  %}
+            </div>
+            <div class="form-group">    
+                <label for="">Brand</label>
+                {% render_field form.brand placeholder="brand" class="form-control"  %}
+            </div>
+            <div class="form-group">
+                <label for="">Rating</label>
+                {% render_field form.rating placeholder="rating" class="form-control" %}
+            </div>
+             <div class="form-group">
+                <label for="">Product MaxPrice</label>
+                {% render_field form.product_max_price placeholder="Maxprice" class="form-control" %}
+            </div>
+             <div class="form-group">
+                <label for="">Long description</label>
+                {% render_field form.product_long_description placeholder="Long description" class="form-control" %}
+            </div>
+             <div class="form-group d-none">
+                <label for="">Product Offer</label>
+                {% render_field form.product_offer placeholder="product_offer" class="form-control" %}
+            </div>
+             <div class="form-group">
+                <label for="">Main Image</label>
+                {% render_field form.pro_images  placeholder="Image" class="form-control"  id="image" %}
+            </div>
+            <div class="form-group">
+                <label for="">Sub-images</label>
+                {% render_field form.pro_image_1  placeholder="Image" class="form-control"  id="image"%}
+            </div>
+            <div class="form-group">
+                <label for="">Sub-images</label>
+                {% render_field form.pro_image_2  placeholder="Image" class="form-control"  id="image" %}
+            </div>
+             <div class="form-group">
+                <label for="">Sub-images</label>
+                {% render_field form.pro_image_3  placeholder="Image" class="form-control"  id="image" %}
+            </div>
+             <div class="form-group">
+                <label for="">Sub-images</label>
+                {% render_field form.pro_image_4  placeholder="Image" class="form-control"  id="image" %}
+            </div>
+            <div class="form-group">
+                <label for="">No. of stock</label>
+                {% render_field form.stock placeholder="stock" class="form-control" %}
+            </div>
+
+           <div class="form-group">
+                <label for="">Title specification</label>
+                {% render_field form.spec_title placeholder="spec Title" class="form-control" %}
+            </div>
+            <div class="form-group">
+                <label for="">Spec description</label>
+                {% render_field form.spec_description placeholder="spec description" class="form-control" %}
+            </div>
+           <div >
+           <div class="form-check">
+                
+               {% render_field form.is_available  type="checkbox" class="form group" %}
+                <label for="">
+                    Availability
+                </label>
+           </div> 
+            <button class="btn btn-success btn-rounded" type="submit">Submit</button>
+           </div>
+            
+    
+            
+        </form>
+    </div>
+
+</div>
+
+{% comment %} <script src="{% static 'Adminpanel/js/cropper.js' %}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js" integrity="sha512-ooSWpxJsiXe6t4+PPjCgYmVfr1NS5QXJACcR/FPpsdm6kqG1FmQ2SVyg2RXeVuCRBLr0lWHnWJP6Zs1Efvxzww==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+// import 'cropperjs/dist/cropper.css';
+import Cropper from 'cropperjs';
+
+const image = document.getElementById('image');
+const cropper = new Cropper(image, {
+  aspectRatio: 16 / 9,
+  crop(event) {
+    console.log(event.detail.x);
+    console.log(event.detail.y);
+    console.log(event.detail.width);
+    console.log(event.detail.height);
+    console.log(event.detail.rotate);
+    console.log(event.detail.scaleX);
+    console.log(event.detail.scaleY);
+  },
+}); {% endcomment %}
+
+{% endblock %}

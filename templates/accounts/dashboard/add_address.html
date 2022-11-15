@@ -1,0 +1,187 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content%}
+
+
+ <div class="account-dashboard">
+            <div class="container mt-5">
+                
+                <div class="row">
+                    {% include 'accounts/dashboard/dashboard_sidebar.html' %}
+                    <div class="col-sm-12 col-md-9 col-lg-9">
+                        <div class="account_login_form">
+                            <form action="{% url 'add_address' %}" method="POST" id="address_form">
+                                {% csrf_token %}
+                                <div class="row">                                
+                                    <div class="col-lg-6">
+                                        <div class="default-form-box">
+                                            <label>First Name <span>*</span></label>
+                                            {% render_field form.first_name required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="default-form-box">
+                                            <label>Last Name <span>*</span></label>
+                                            {% render_field form.last_name class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="default-form-box">
+                                            <label>Phone<span>*</span></label>
+                                            {% render_field form.phone required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="default-form-box">
+                                            <label> Email Address <span>*</span></label>
+                                            {% render_field form.email required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    
+            
+                                    <div class="col-6">
+                                        <div class="default-form-box">
+                                            <label>Address Line 1<span>*</span></label>
+                                            {% render_field form.address_line_1 required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="default-form-box">
+                                            <label>Address Line 2<span>*</span></label>
+                                            {% render_field form.address_line_2 class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="default-form-box">
+                                            <label>City <span>*</span></label>
+                                            {% render_field form.city required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="default-form-box">
+                                            <label>State<span>*</span></label>
+                                            {% render_field form.state required="True" class="form-control" %}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="default-form-box">
+                                            <label for="country">country <span>*</span></label>
+                                            {% render_field form.country class="country_option nice-select wide form-control" name="country" id="country" required="True" %}
+                                        </div>
+                                    </div>
+    
+    
+                                    <div class="d-flex">
+                                        <div class="order_button pt-3 mt-2">
+                                            <button type="submit" class="btn btn-md btn-primary px-3">SAVE</button>
+                                        </div>
+                                        <div class="order_button ml-3 pt-3 mt-2 mb-3">
+                                            <a href="{% url 'address_list' %}" class="btn btn-md btn-danger">CANCEL</a>
+                                        </div>
+                                   </div>
+                                </div>
+                            </form> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+<script src="{% static 'Timbre/js/jquery/jquery-2.2.4.min.js' %}"></script>
+<script src= "https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"> </script>
+<script>
+  $(document).ready(function(){
+  $("#address_form").validate({
+    rules:{
+          first_name:{
+                        required:true,
+                        minlength:2
+                        }, 
+          last_name:{
+            required:false,
+            minlength:2
+                },
+            
+                phone:{
+                  required: true,
+                  number: true,
+                  minlength:10,
+                  maxlength:10, 
+                },
+
+            address_line_1:{
+            required: true,
+            minlength:4
+            },
+
+            address_line_2:{
+            required: true,
+            minlength:4
+            },
+
+            city:{
+                requried: true,
+                minlength: 2
+
+            },
+            state:{
+                required: true,
+                minlength: 2
+            },
+            country:{
+                required: true,
+                minlength: 2
+            },
+
+          },
+
+
+    messages :{
+                first_name:{
+                        minlength:'Minimum 2 charecter required'
+                        },
+                last_name:{
+                        minlength:'Minimum 2 charecter required'
+                },
+                phone:{
+                  minlength:'Required 10 digits',
+                  maxlength:'Only 10 digits required', 
+                },
+                address_line_1:{
+                    minlength:'Minimum 4 character required'
+                },
+                address_line_2:{
+                    minlength:'Minimum 4 character required'
+                },
+                city:{
+                    minlength:'Minimum 2 character required'
+                },  
+                state:{
+                    minlength:'Minimum 2 character required'
+                },
+                country:{
+                    minlength:'Minimum 2 character required'
+                }
+              }
+  })
+})
+
+
+</script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,533 @@
+{% extends 'base.html' %}
+
+ {% load static %} 
+
+ {% block title %}
+ Payment Page
+{% endblock %} 
+
+
+{% block content %}
+
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+<div class="row">
+	<aside class="col-lg-8 mb-3">
+        <div class="card">
+            <h5 class="card-header">Billing Address</h5>
+            <div class="card-body">
+                
+                <p class="card-text mb-0">{{order.full_name}}</p>
+                <p class="card-text  mb-0">{{order.full_address}}</p>
+                <p class="card-text  mb-0">{{order.city}}{{order.state}}</p>
+                <p class="card-text  mb-0">{{order.country}}</p>
+                <p class="card-text  mb-0">{{order.email}}</p>
+                <p class="card-text  mb-0">{{order.phone}}</p>
+               
+            </div>
+              {% comment %} <div class="card">
+            <h5 class="card-header">Payment Method</h5>
+            <div class="card-body">
+                
+                <p class="card-text">{{order.payment.payment_method}}</p>
+               
+            </div> {% endcomment %}
+              <div class="card">
+            <h5 class="card-header">Review Products</h5>
+            <div class="card-body">
+                
+                <p class="card-text">
+                
+                        <table class="table table-responsive">
+                          <thead>
+                            <tr>
+                              <th>Product</th>
+                              <th>Price</th>
+                              <th>Quantity</th>
+                
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for cart_item in cart_items %}
+                            <tr>
+                              <td class="cart_product_img d-flex align-items-center">
+                                <a href="#"
+                                  ><img
+                                    src="{{ cart_item.product_id.pro_images.url}}"
+                                    alt="Product"
+                                /></a>
+                                <div>
+                                  {% for key in cart_item.product_id.productbrand.all %}
+                                  <a href="{{ cart_item.product_id.get_absolute_url }}" class="link-danger" ><span class="mb-2 fw-bold">{{key.brand_name}}</span></a>
+                                  {% endfor %}
+                                  <h6>{{cart_item.product_id.product_name}}</h6>
+                                </div>
+                              </td>
+                              {% if cart_item.product_id.offer_price > 0 %}
+                              <td class="price">
+                                <span>{{cart_item.product_id.offer_price }}</span>
+                              </td>
+                              {% else %}
+                              <td class="price">
+                                <span>{{cart_item.product_id.product_max_price }}</span>
+                              </td>
+                              {% endif %}
+                              <td class="qty">
+                                <div class="quantity">
+                                    {{cart_item.quantitiy}}
+                                  
+                                </div>
+                              </td>
+                               {% endfor %}
+                            </tr>
+                          </tbody>
+                        </table>
+                </p>
+               
+            </div>
+        </div>
+
+  <div class="coupon_area" id="coupon_container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="coupon_code left" data-aos="fade-up" data-aos-delay="200">
+                            <h3>Coupon</h3>
+                            <div class="coupon_inner">
+                                <p>Enter your coupon code if you have one.</p>
+                                <div id="output" class="my-2 text-danger" >
+                                </div>
+                                <form id="coupon_form" method="POST">
+                                    {% csrf_token %}
+                                    <input class="mb-2" placeholder="Coupon code" type="text"
+                                        name="coupon_data" id="coupon_data"
+                                    >
+                                    <button  class="btn btn-md btn-golden" type="submit">Apply coupon</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if coupons %}
+                    <div class="col-md-12 mt-3">
+                        <h3 class="text-success"> Availabel Coupons:</h3>
+                        <div class="faq-accordian">
+                            {% for item in coupons %}
+                            {% if forloop.counter == 1 %}
+                            <div class="faq-accordian-single-item" data-aos="fade-up" data-aos-delay="0">
+                                <input id="item-1" name="accordian-item" type="radio" checked="">
+                                <label for="item-1">{{item.coupone.discount}}% OFF</label>
+                                <div class="item-content">
+                                    <p><b>*</b>Applicable only  for order price more than {{item.coupone.min_value}}</p>
+                                    <div class="d-flex mb-3">
+                                    <span class="h4 text-success mt-2 ml-5 mr-2">Coupon Code : </span>
+                                    <div class="code text-center mr-2" style="text-transform: uppercase;
+                                        padding: 4px;
+                                        background-color: #fff;
+                                        color: red;
+                                        margin-top: 5px;
+                                        font-size: 19px;
+                                        padding-right: 57px;">
+
+                                    <span class="text-center">{{item.coupone.code}}</span>
+                                    </div>
+                                      </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="faq-accordian-single-item" data-aos="fade-up" data-aos-delay="200">
+                                <input id="item-2" name="accordian-item" type="radio">
+                                <label for="item-2">{{item.coupone.discount}}% OFF</label>
+                                <div class="item-content">
+                                    <p><b>*</b>Applicable only  for order price more than {{item.coupone.min_value}}</p>
+                                    <div class="d-flex mb-3">
+                                    <span class="h4 text-success mt-2 ml-5 mr-2">Coupon Code : </span>
+                                    <div class="code text-center mr-2" style="text-transform: uppercase;
+                                        padding: 4px;
+                                        background-color: #fff;
+                                        color: red;
+                                        margin-top: 5px;
+                                        font-size: 19px;
+                                        padding-right: 57px;">
+
+                                    <span class="text-center">{{item.coupone.code}}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            
+                        </div>
+
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div> <!-- End Coupon Start -->  
+    </aside> <!-- col.// -->
+
+    <aside class="col-lg-4 mb-5"  id="amount-caontainer"> 
+            <ul class="cart-total-chart">
+              <li><span>Subtotal</span> <span>₹{{total}}</span></li>
+              <li><span>delivery Charge</span> <span>₹{{delivery_charge}}</span></li>
+
+
+              <div class="cart_subtotal" id="coupon_block" style="display: none!important;">
+                {% comment %} <p>Coupon</p>
+                <p class="cart_amount"> - <b id="coupon_perc"></b>%</p> {% endcomment %}
+                <li><span>Coupon</span> <span class="cart_amount" id="coupon_perc"> </span></li>
+              </div>
+               
+              <hr style="height:1px;border:none;color:#333;background-color:#333;" >
+              <li>
+                <span><strong>Total</strong></span>
+                <span id="grand_total"><strong>₹{{grand_total}}</strong></span>
+              </li>
+               <div class="mt-5">
+           <form action={% url 'cash_on_delivery' product_order_number %} method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn karl-checkout-btn  btn-block">Cash on delivery</button>
+           
+            </form>
+            
+             <div id="paypal-button-container" class="mt-3 px-0 btn-lg btn-block">
+             
+             </div>
+             <button id="rzp-button1" class="btn btn-secondary  btn-block">Razorpay</button>
+
+
+          </div>
+            </ul>
+
+            
+            
+          
+          {% comment %} <div class="mt-3 ml-5">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          Cash On Delivery
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cash on Delivery</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Confirm Your Order?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                
+             <a href="{% url 'cash_on_delivery' product_order_number %}" type="button" class="btn btn-primary mt-2" data-toggle="modal" data-target="#exampleModalCenter">Confirm</a>
+              </div>
+            </div>
+          </div>
+        </div>           
+          
+          </div>
+                    <!-- Button trigger modal -->
+         {% endcomment %}
+        
+       
+    </div>            
+</aside> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+
+  <script src="https://www.paypal.com/sdk/js?client-id=ARS6ND_twD0WmR02A7dTcjxq749EZPqbzZM7RHvlBC8Hiklip63to-F4YI7UBMps-pxEwgmEIiNJQiEq&currency=USD"></script>
+
+<script>
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+
+ 
+  var amount = Number("{{grand_total}}")
+  amount = amount/75 
+  amount = amount.toFixed(2)
+  {% comment %} var amount = "{{grand_total}}"  {% endcomment %}
+  var url = "{% url 'payments' %}"
+  var csrftoken = getCookie('csrftoken');
+  var orderID = "{{ order.order_number }}"
+  var payment_method = 'PayPal'
+  var redirect_url = "{% url 'order_complete'  %}"
+  
+  console.log(amount)
+
+        paypal.Buttons({
+
+            // Set up the transaction
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: amount
+                        }
+                    }]
+                });
+            },
+
+            // Finalize the transaction
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    // Successful capture! For demo purposes:
+                    console.log(details)
+                    sendData();
+                   
+                    function sendData(){
+                      fetch(url,{
+                        method :"POST",
+                        headers : {
+                          "content-type": "application/json",
+                          "X-CSRFToken" : csrftoken,
+
+                        },
+                         body: JSON.stringify({
+                          orderID: orderID,
+                          transID: details.id,
+                          payment_method: 'PayPal',
+                          status : details.status,
+                          
+                          
+
+                         }),
+                      })
+
+
+                       .then((response) => response.json())
+                       .then((data) => {
+                        window.location.href = redirect_url + '?order_number='+data.order_number+'&payment_id='+data.transID;
+                       });
+
+                      
+                    }
+
+                });
+            }
+
+
+        }).render('#paypal-button-container');
+</script> 
+
+
+
+
+{% comment %} 
+<!-- pay pal script -->
+<script>
+
+    function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+    }
+    var amount=Number("{{grand_total}}");
+    amount =  amount/75;
+    amount = 250
+    var url = "{% url 'payments' %}"
+    var csrftoken = getCookie('csrftoken');
+    var orderID = "{{order.order_number}}"
+    var payment_method = 'PayPal'
+    var redirect_url = "{% url 'order_complete' %}"
+    
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: amount
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Show a success message to the buyer
+                console.log(details);
+                sendData();
+                function sendData(){
+                    fetch(url, {
+                        method : "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                            "X-CSRFToken": csrftoken,
+                        },
+                        body: JSON.stringify({
+                            orderID: orderID,
+                            transID: details.id,
+                            status: 'completed',
+                            paymode : "PayPal"
+                        }),
+                    })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("ohhhhhh")
+                        window.location.href = redirect_url + '?order_number='+data.order_number+'&payment_id='+data.transID;
+                    });
+                }
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script> {% endcomment %}
+
+
+
+<!--          Razorpay -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+var orderID = "{{order.order_number}}"
+var csrftoken = getCookie('csrftoken');
+var redirect_url = "{% url 'order_complete'  %}"
+var url1 = "{% url 'razor_pay' %}";
+function sample(response){
+    // var payment_method = response.payment.payment_method
+  var options = {
+      "key": "rzp_test_BsgpW3PBm8OnAn",
+      "amount":response.payment.amount , 
+      "currency": "INR",
+      "name": "Main Gadgets",
+      "description": "purchase test 1",
+      "image": "https://example.com/your_logo",
+      "order_id": response.payment.id,
+
+      "handler": function (response2){
+          sendData1(response,response2);
+      },
+      "prefill": {
+          "name": "hai",
+          "email": "hai@gmail.com",
+          "contact": "1234567891"
+      },
+      "notes": {
+          "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+          "color": "#3399cc"
+      }
+  };
+  var rzp1 = new Razorpay(options);
+    rzp1.open();
+//     e.preventDefault();
+//   rzp1.on('payment.failed', function (response){
+//           alert(response.error.reason);
+//           //alert(response.error.metadata.order_id);
+//           //alert(response.error.metadata.payment_id);
+//   });
+}
+  document.getElementById('rzp-button1').onclick = function(e){
+      fetch(url1).then((response)=>response.json()).then(response=>{
+        console.log(response)
+         sample(response)
+         
+      })
+      e.preventDefault();
+  }
+
+  function sendData1(response,response2){  
+            console.log(response.razorpay_payment_id)
+              fetch(url,{
+                  method : "POST",
+                  headers : {
+                      "Content-type":"application/json",
+                      "X-CSRFToken": csrftoken,
+                  },
+                  body:JSON.stringify({
+                      orderID: orderID,
+                      transID: response2.razorpay_payment_id,
+                    //   razorpay_payment_id:response.razorpay_payment_id,
+                    //   razorpay_order_id:response.razorpay_order_id,
+                    //   razorpay_signature:response.razorpay_signature,
+                    //   amount_paid:amount_paid,
+                      status:'completed',
+                     payment_method:'RazerPay'
+                  }),
+              })
+              .then(response => response.json())
+              .then(data => {
+                  window.location.href = redirect_url + '?order_number='+data.order_number +'&payment_id='+data.transID;
+
+              });
+          }	
+</script>
+
+ 
+
+<script>
+$('#coupon_form').on('submit', function(e){
+
+e.preventDefault();
+
+  $.ajax({
+      type : "POST", 
+      url: "{% url 'coupon' %}",
+      data: {
+          coupon : $('#coupon_data').val(),
+          grand_total : '{{grand_total}}',
+        csrfmiddlewaretoken: '{{ csrf_token }}',
+        dataType: "json",
+
+      },
+      
+      success: function(data){
+          $('#output').html(data.msg) /* response message */
+          $('#amount-caontainer #grand_total').text(data.grand_total)
+          $('#amount-caontainer #coupon_perc').text(data.coupon_perc)
+          if (data.coupon_perc > 0) {
+
+              $('#amount-caontainer #coupon_block').show()
+              $('#coupon_container').hide()
+          }
+          
+      },
+
+      failure: function() {
+          
+      }
+
+
+  });
+
+
+        });    
+</script>
+
+
+{% endblock%}

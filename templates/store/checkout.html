@@ -1,0 +1,146 @@
+{% extends 'base.html'%}
+{% load widget_tweaks %}
+
+{% block title %}  
+
+Checkout Page
+
+{% endblock %}
+
+
+{% block content %}
+<div class="checkout_area section_padding_100">
+    <div class="container ">
+        <div class="row d-flex my-5">
+
+            <div class="col-lg-6 mr-5">
+                <div class="checkout_details_area mt-50 clearfix">
+                    <div class="card">
+                        <div class="card-body card-title mb-4">
+                            {% if addresses %}
+                            <h5 class="card-header">DELIVERY ADDRESS</h5>    
+                            {% for item in addresses %}    
+                            <div class="card-body form-check row">
+                                    <div class="col-12 d-flex">
+                                        <form action="{% url 'place_order' %}" method="POST">
+                                            {% csrf_token %}
+                                        {% if forloop.counter == 1 %}
+                                        <input class="form-check-input d-block ml-0 mt-1" value="{{item.id}}" type="radio" name="flexRadioDefault" checked>
+                                        {%else%}
+                                        <input class="form-check-input d-block ml-1 mt-1" value="{{item.id}}" type="radio" name="flexRadioDefault">
+                                        {%endif%}
+                                        </a>
+                                        <div class="d-block ml-4">
+                                            <p class="card-text mb-0"><b>{{item.full_name}}</b>
+                                             <p class="card-text mb-0">{{item.address_line_1}}</p>
+                                             <p class="card-text mb-0">{{item.city}}</p>
+                                             <p class="card-text mb-0">{{item.state}}</p>
+                                            <p class="cart-text mb-0">{{item.email}}</p>
+                                            <p class="cart-text mb-0">{{item.phone}}</p>
+                                        </div>
+                                    </div>              
+                                </div>                           
+                                <hr>
+                            {%endfor%}
+                            <div class="card-body form-check row">
+                                <div class="col-12  py-2">
+                                    <div class="row d-flex align-content-center">
+                                        <div class="col-12 d-block ml-2 d-flex">
+                                            <p class="card-text mt-1 h5"><b class="text-center">Add New Address</b></p>
+                                            <a href="{% url 'add_address' %}" class="col-3 btn btn-primary ml-auto mr-5">Add</a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>              
+                            </div>
+                            {%else%}
+                            <div class="card-body form-check row d-flex align-items-center" style="height: 328px;">
+                                <div class="col-12  py-5">
+                                    <div class="row d-flex align-content-center">
+                                        <div class="col-12 d-block ml-2">
+                                            <p class="card-text mb-0 h2"><b class="text-center">No addresses found in your account!</b></p>
+                                        </div>
+                                        <a href="{% url 'add_address' %}" class="col-3 btn btn-primary mx-auto mt-3">Add Address</a>
+                                    </div>
+                                    
+                                </div>              
+                            </div>
+                            {%endif%}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div> 
+
+            <div class="col-lg-5 mt-5 pl-3">
+                <div class="order-details-confirmation">
+                        <div class="cart-page-heading">
+                        <h5>Your Order</h5>
+                        <p>The Details</p>
+                    </div>
+                    <div class="cart-table clearfix-50">
+                        <table class="table table-responsive">
+                          <thead>
+                            <tr>
+                              <th>Product</th>
+                              <th>Price</th>
+                              <th>Quantity</th>
+                
+                              
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for cart_item in cart_items %}
+                            <tr>
+                              <td class="cart_product_img d-flex align-items-center">
+                                <a href="#"
+                                  ><img
+                                    src="{{ cart_item.product_id.pro_images.url}}"
+                                    alt="Product"
+                                /></a>
+                                <div>
+                                  {% for key in cart_item.product_id.productbrand.all %}
+                                  <a href="{{ cart_item.product_id.get_absolute_url }}" class="link-danger" ><span class="mb-2 fw-bold">{{key.brand_name}}</span></a>
+                                  {% endfor %}
+                                  <h6>{{cart_item.product_id.product_name}}</h6>
+                                </div>
+                              </td>
+                              {% if cart_item.product_id.offer_price > 0 %}
+                              <td class="price">
+                                <span>{{cart_item.product_id.offer_price}}</span>
+                              </td>
+                              {% else %}
+                              <td class="price">
+                                <span>{{cart_item.product_id.product_max_price}}</span>
+                              </td>
+                              {% endif %}
+                              <td class="qty">
+                                <div class="quantity">
+                                    {{cart_item.quantitiy}}
+                                  
+                                </div>
+                              </td>
+                             
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+
+                    {% comment %} <a href="{% url 'checkout' %}" class="btn karl-checkout-btn">Place Order</a> {% endcomment %}
+                    <div class="">
+                        <button type="submit" class="btn karl-checkout-btn btn-lg btn-block" > Place Order</button>
+        
+                    </div>
+                   
+                    </form>
+                </div>
+                      
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock%}
