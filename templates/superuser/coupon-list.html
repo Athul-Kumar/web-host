@@ -11,7 +11,7 @@ text-light
 
 
 {% block tablecontent %} 
-Coupon List
+COUPON LIST INFO
 
 {% endblock %}
 
@@ -27,6 +27,15 @@ Coupon List
     </button>
   </div>  
 {% endfor %}
+
+
+<div class="mb-4">
+    <form action="{% url 'admin_display_coupon' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+</div>
 
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card" style="height: 716px;">

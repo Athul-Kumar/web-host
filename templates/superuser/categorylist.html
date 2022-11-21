@@ -5,7 +5,7 @@ text-light
 {% endblock %}
 
 {% block tablecontent %} 
-categories
+CATEGORY LIST INFO
 {% endblock %}
 
 
@@ -22,7 +22,15 @@ categories
 
 
 
-<div class="mx-auto mb-5" style="width: 400px;">
+<div class="mb-4">
+    <form action="{% url 'categorylist' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+</div>
+
+<div class="d-felx justify-content-start mb-5" style="width: 400px;">
   <a href="{% url 'category-add' %}" class="btn btn-info btn-rounded btn-floating ">Add category</a>
 
 </div>
@@ -31,7 +39,7 @@ categories
 <table class="table">
     <thead>
       <tr>
-        <th scope="col" class="text-light">S.No</th>
+        <th scope="col" class="text-light">Cat.ID</th>
         <th scope="col" class="text-light">Items</th>
         <th scope="col" class="text-light">Image</th>
         <th scope="col" class="text-light">Availability</th>
@@ -52,12 +60,39 @@ categories
          {% endif %}
         
         <td class="text-light">
-            <form action="{% url 'category_delete' id=category.id %}" method="POST">
+           {% comment %} <form action="{% url 'category_delete' id=category.id %}" method="POST">
                 {% csrf_token%}
 
                 <button type="submit" class="btn btn-danger btn-rounded">Delete</button>
-            </form>
-        </td> 
+            </form>  {% endcomment %}
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-danger btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal{{category.id}}">
+               Delete
+            </button>
+        </td>   
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModal{{category.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Do you wanto to delete</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  Do you want to Delete this {{category.category_name}}
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                  <form action="{% url 'category_delete' id=category.id %}" method="POST">
+                    {% csrf_token%}
+                  <button type="submit" class="btn btn-danger btn-rounded">Delete</button>
+                 </form> 
+                </div>
+              </div>
+            </div>
+          </div>
       </tr>
         
         {% endfor%}
@@ -65,6 +100,8 @@ categories
       
     </tbody>
   </table>
+
+
 
 
   

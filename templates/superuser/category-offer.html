@@ -13,7 +13,7 @@ text-light
 
 
 {% block tablecontent %} 
-Category Offer
+CATEGORY OFFER INFO
 
 {% endblock %}
 
@@ -30,6 +30,14 @@ Category Offer
     </button>
   </div>  
   {%endfor%}
+
+  <div class="mb-4">
+    <form action="{% url 'category_offer' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+  </div>
     <!-- Modal -->
     
     <div class="grid-margin stretch-card">
@@ -181,6 +189,22 @@ Category Offer
       </div>
     </div>
 
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    
+  {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link btn-danger"  href="?page=1">&laquo First</a></li>
+      <li class="page-item"><a class="page-link btn-danger"  href="?page={{ page_obj.previous_page_number }}"> previous</a></li>
+  {%endif%}
+   <li class="page-item disabled"><a href="#" class="page-link badge-danger" > Page {{page_obj.number}} of {{page_obj.paginator.num_pages}}</a></li>
+  {% if page_obj.has_next %}
+     <li class="page-item"><a class="page-link btn-danger"  href="?page={{page_obj.next_page_number}}">Next</a></li>
+     <li class="page-item"><a class="page-link btn-danger"  href="?page={{page_obj.paginatior.num_pages }}">Last &raquo</a></li>
+  {% endif%}
+
+  </ul>
+</nav> 
 
 
 {% endblock %}

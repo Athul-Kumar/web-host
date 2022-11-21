@@ -5,7 +5,7 @@ text-light
 {% endblock %}
 
 {% block tablecontent %}
-userlist
+USERS LIST INFO
 {% endblock %}
 
 
@@ -24,11 +24,17 @@ userlist
 
 
 
-
+<div class="mb-4">
+    <form action="{% url 'userlist' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+</div>
 
 <table class="table">
     <thead>
       <tr>
+      <th scope="col" class="text-light">No</th>
         <th scope="col" class="text-light">First name</th>
         <th scope="col" class="text-light">Last name</th>
         <th scope="col" class="text-light">Email</th>
@@ -40,6 +46,7 @@ userlist
     <tbody>
         {% for user in userlist %}
       <tr>
+        <th scope="row" class="text-light">{{forloop.counter}}</th>
         <th scope="row" class="text-light">{{user.first_name}}</th>
         <td class="text-light">{{user.last_name}}</td>
         <td class="text-light">{{user.email}}</td>

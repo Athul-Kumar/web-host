@@ -56,4 +56,34 @@ text-light
 </div>
 
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script>
+
+  $("#id_cat_image").change(function()
+  {
+      var Data = document.getElementById('id_cat_image');
+      var FileUploadPath = Data.value;
+
+      if (FileUploadPath != '') {
+          var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+          //The file uploaded is an image
+
+          if (Extension == "gif" || Extension == "png" || Extension == "bmp"
+                              || Extension == "jpeg" || Extension == "jpg"  || Extension == "webp"){
+              return true;
+          }else if (Extension != 'gif' || Extension != 'png' || Extension != 'bmp' || Extension != 'jpeg' || Extension != 'jpg' || Extension != 'webp') {
+
+              alert("Photo only allows file types of GIF, PNG, JPG, JPEG, WEBP and BMP. ");
+            Data.type = '';
+            Data.type = 'file';
+              return false;
+          }
+      }
+  });
+
+</script>
+
+
 {% endblock %}

@@ -12,7 +12,7 @@ text-light
 
 
 {% block tablecontent %} 
-Product Offer
+PRODUCT OFFER INFO
 
 {% endblock %}
 
@@ -27,6 +27,15 @@ Product Offer
     </button>
   </div>  
   {%endfor%}
+
+  
+  <div class="mb-4">
+    <form action="{% url 'product_offer' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+  </div>
     <!-- Modal -->
     
     <div class="grid-margin stretch-card">

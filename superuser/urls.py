@@ -26,6 +26,7 @@ urlpatterns = [
    path("coupon_update/<int:id>",views.coupon_update,name='coupon_update'),
    path("product_offer",views.product_offer,name='product_offer'),
    path("add-product-offer",views.add_product_offer,name='add-product-offer'),
+   path("product_update/<int:id>",views.update_product,name='product_update'),
    path("product_offer_delete/<int:id>",views.product_offer_delete,name='product_offer_delete'),
    path("category_offer",views.category_offer,name='category_offer'),
    path("add-category-offer",views.add_category_offer,name='add-category-offer'),

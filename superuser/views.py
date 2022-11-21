@@ -134,11 +134,21 @@ def admin_logout(request):
 # admin user side
 @staff_member_required(login_url='admin_login')
 def userlist(request):
-    users = Account.objects.filter(is_admin=False, is_verified=True)
+    if 'query' in request.GET:
+        print("hello")
+        query = request.GET.get('query')
+        print(query)
+        if query:
+            users = Account.objects.filter(email__icontains = query, is_admin=False)
+            
+        else:
+            return redirect(userlist)
+    else:
+        users = Account.objects.filter(is_admin=False, is_verified=True)
     form= UserForm()
     # pagination
 
-    p= Paginator(Account.objects.filter(is_admin=False, is_verified=True), 5)
+    p= Paginator(users, 5)
     page= request.GET.get('page')
     userlist= p.get_page(page)  
     context={
@@ -186,11 +196,19 @@ def userblock(request,id,flag):
 #  Admin category
 @staff_member_required(login_url='admin_login')
 def admin_category(request):
-    categories = Category.objects.all()
+
+    if 'query' in request.GET:
+        query = request.GET.get('query')
+        if query:
+            categories=Category.objects.filter(category_name__icontains = query)
+        else:
+            return redirect(admin_category)
+    else:
+        categories = Category.objects.all()
     form = CategoryForm()
 
     # pagination
-    p= Paginator(Category.objects.all(), 5)
+    p= Paginator(categories, 5)
     page= request.GET.get('page')
     categorylist= p.get_page(page)  
 
@@ -237,12 +255,19 @@ def admin_category_delete(request, id):
 # Admin Products
 @staff_member_required(login_url='admin_login')
 def admin_productlist(request):
+    if 'query' in request.GET:
+        query = request.GET.get('query')
+        if query:
+            productlist=Product.objects.filter(product_name__icontains = query)
+        else:
+            return redirect(admin_productlist)
+    else:
 
-    productlist = Product.objects.all()
+         productlist = Product.objects.all()
     form = ProductForm()
     # pagination 
 
-    p = Paginator(Product.objects.all(), 5)
+    p = Paginator(productlist, 5)
     page= request.GET.get('page')
     productedlist= p.get_page(page)  
 
@@ -283,34 +308,35 @@ def admin_product_delete(request, id):
 
     return redirect('productlist')
 
-# def admin_product_specifications(request):
-#     if request.method == 'POST':
-#         form = SpecificationForm()
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, 'Specification added successfully.')
-#             return redirect('productlist')
-#         else:
-#             messages.error(request, 'Specification adding is failed')
-#             return redirect('productlist')
-
-#     form = SpecificationForm()
-#     context ={
-#         'form': form
-#     }
-
-#     return render(request, 'superuser/product-specifications.html',context)
-
+@staff_member_required(login_url='admin_login')
+def update_product(request, id) :
+    category = Product.objects.get(id=id)
+    if request.method == 'POST' :
+        form = ProductForm(request.POST, request.FILES, instance=category)   
+        if form.is_valid() :
+            form.save()
+            messages.success(request,'Product Updated success fully ')
+            return redirect(admin_productlist)    
+    form = ProductForm(instance=category)
+    context = {'form' : form}
+    return render(request, 'superuser/product-add.html', context)  
 
 # Admin Brans
 
 @staff_member_required(login_url='admin_login')
 def admin_brandlist(request):
+    if 'query' in request.GET:
+        query = request.GET.get('query')
+        if query:
+            brandlist=Brandinfo.objects.filter(brand_name__icontains = query)
+        else:
+            return redirect(admin_brandlist)
 
-    brandlist = Brandinfo.objects.all()
+    else:
+        brandlist = Brandinfo.objects.all()
     form = BrandForm()
     # pagination
-    p= Paginator(Brandinfo.objects.all(), 5)
+    p= Paginator(brandlist, 5)
     page= request.GET.get('page')
     brandedlist= p.get_page(page)  
 
@@ -329,11 +355,12 @@ def admin_brand_delete(request, id):
         brand_id.delete()
     return redirect('brandlist')
 
+
+
 @staff_member_required(login_url='admin_login')
 def admin_brand_add(request):
     if request.method == 'POST':
         form = BrandForm(request.POST, request.FILES)
-        # print(form)
         if form.is_valid():
             form.save()
             messages.success(request, 'Brand added successfully.')
@@ -353,12 +380,11 @@ def admin_brand_add(request):
 
 @staff_member_required(login_url='admin_login')
 def admin_orderlist(request):
-    # print("enthada")
-    if 'key' in request.GET:
-        # print("inguvaaa ni")
-        key = request.GET.get('key')
-        if key:
-            order = Order.objects.all().filter(tracking_no__icontains = key).order_by('-created_at')
+  
+    if 'query' in request.GET:
+        query = request.GET.get('query')
+        if query:
+            order = Order.objects.all().filter(is_ordered = True,order_number__icontains = query).order_by('-created_at')
         else:
             return redirect('orderlist')
     else:
@@ -367,7 +393,6 @@ def admin_orderlist(request):
     p = Paginator(order, 10)
     page = request.GET.get('page')
     orders = p.get_page(page)
-    # print("vallom nadakkuvo")
     form = OrderForm()
     
     

@@ -301,4 +301,21 @@ $("body").on("click", "#btnExport", function () {
 </body>
 <!-- page-body-wrapper ends -->
 </html>
+
+
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+      
+  {% if page_obj.has_previous %}
+      <li class="page-item"><a class="page-link btn-danger"  href="?page=1">&laquo First</a></li>
+      <li class="page-item"><a class="page-link btn-danger"  href="?page={{ page_obj.previous_page_number }}"> previous</a></li>
+  {%endif%}
+   <li class="page-item disabled"><a href="#" class="page-link badge-danger" > Page {{page_obj.number}} of {{productedlist.paginator.num_pages}}</a></li>
+  {% if productedlist.has_next %}
+     <li class="page-item"><a class="page-link btn-danger"  href="?page={{page_obj.next_page_number}}">Next</a></li>
+     <li class="page-item"><a class="page-link btn-danger"  href="?page={{page_obj.paginatior.num_pages }}">Last &raquo</a></li>
+  {% endif%}
+
+  </ul>
 {% endblock %}

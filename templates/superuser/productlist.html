@@ -11,7 +11,7 @@ text-light
 
 
 {% block tablecontent %} 
-Product List
+PRODUCT LIST INFO
 
 {% endblock %}
 
@@ -28,16 +28,16 @@ Product List
   {%endfor%}
 
 
+<div class="mb-4">
+    <form action="{% url 'productlist' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+</div>
 
-<div class="mx-auto" style="width: 400px;">
-  
+<div class="d-felx justify-content-start mb-5" style="width: 400px;">
   <a href="{% url 'product-add' %}" class="btn btn-info btn-rounded ml-5">Add Product </a> 
-  
-  
-{% comment %} 
-  <a href="{% url 'specifications' %}" class="btn btn-info btn-rounded ml-5"> Add specifications</a> {% endcomment %}
-
-
 </div>
 
 <br><br>
@@ -51,6 +51,7 @@ Product List
       <th scope="col" class="text-light">rating</th>
       <th scope="col" class="text-light">Image</th>
       <th scope="col" class="text-light">Items Left</th>
+          <th scope="col" class="text-light">Update</th>
       <th scope="col" class="text-light">Delete</th>
     </tr>
   </thead>
@@ -64,12 +65,42 @@ Product List
       <td class="text-light">{{products.stock}}</td>
       <td class="text-light">
 
-        <form action="{% url 'product_delete' id=products.id %}" method = "POST">
+        <form action="{% url 'product_update' products.id %}" method = "POST">
           {% csrf_token %}
-          <button class="btn btn-danger btn-rounded" type="submit">Delete</button>
-        </form>
+          <button class="btn btn-danger btn-rounded" type="submit">Update</button>
+        </form> 
+        </td>
+        <td class="text-light">
+        <button type="button" class="btn btn-danger btn-rounded" data-bs-toggle="modal" data-bs-target="#exampleModal{{products.id}}">
+         Delete
+        </button>
       </td>
-      
+      <!-- Button trigger modal -->
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal{{products.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Delete Product</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                Do you want to delte this {{Products.product_name }}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+               <form action="{% url 'product_delete' id=products.id %}" method = "POST">
+                {% csrf_token %}
+                 <button type="submit" class="btn btn-danger btn-rounded">Delete</button>
+              </form
+               
+              </div>
+            </div>
+          </div>
+        </div>
     </tr>
     {% endfor %}
   </tbody>
@@ -100,5 +131,8 @@ Product List
 
   </ul>
 </nav>
+
+
+
 
 {% endblock %}

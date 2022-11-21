@@ -194,6 +194,7 @@
                                    {% endcomment %}
                                     <a href="{{items.get_absolute_url}}">{{items.product_name}}</a>
                                     <!-- Add to Cart -->
+                                    <a href="{% url 'add_cart' items.id %}" class="add-to-cart-btn">ADD TO CART</a>
                                     
                                     
                                 </div>
@@ -211,6 +212,7 @@
                                   
                                     <a href="{{items.get_absolute_url}}">{{items.product_name}}</a>
                                     <!-- Add to Cart -->
+                                    <a href="{% url 'add_cart' items.id %}" class="add-to-cart-btn">ADD TO CART</a>
                                     
                                     
                                 </div>

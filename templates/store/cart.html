@@ -58,23 +58,23 @@
                     <span>{{cart_item.product_id.offer_price}}</span>
                   </td>
                   {% endif %}
-                  {% comment %} {% include 'store/cart-function.html' %} {% endcomment %}
+                  
                                       
                     <td class="qty" >
                         <div class="quantity">
                         
                            <span class="qty-minus">
-                             <a href="{% url 'remove_cart' cart_item.product_id.id %}" class="decrement-btn">
+                             <!-- <a href="{% url 'remove_cart' cart_item.product_id.id %}" class="decrement-btn">
                              <i class="fa fa-minus" aria-hidden="true"  ></i>
-                            </a>
+                            </a> -->
 
                                  <!-- HTMX -->
-                            <!-- <a hx-get="{% url 'remove_cart' cart_item.product_id.id %}" 
+                             <a hx-get="{% url 'remove_cart' cart_item.product_id.id %}" 
                                hx-trigger="click" 
                                 hx-target="#target-id" 
                                 hx-swap="innerHTML">
                              <i class="fa fa-minus" aria-hidden="true"  ></i>
-                            </a>  -->
+                            </a> 
                             <!-- hx-get="/api/?action=feed" hx-trigger="load" hx-target="#app" hx-swap="innerHTML" -->
                              <!-- <button  type="button" style="width: 20px;" class="decrement-btn"><i class="fa fa-minus" aria-hidden="true"  ></i></button>  -->
                             </span> 
@@ -90,7 +90,10 @@
                             disabled
                             />
                             <span class="qty-plus">
-                            <a href="{% url 'add_cart' cart_item.product_id.id %}">
+                            <a hx-get="{% url 'add_cart' cart_item.product_id.id %}"
+                              hx-trigger="click" 
+                              hx-target="#target-id" 
+                              hx-swap="innerHTML">
                                 <i class="fa fa-plus" aria-hidden="true"></i
                             ></a>
                             </span>
@@ -98,7 +101,7 @@
                         </td>
                         
                         <td class="total_price">
-                        <span>₹{{ cart_item.sub_total }}</span>
+                        <span>₹ {{ cart_item.sub_total }}</span>
                         </td>
                     <td>
                       {% comment %} <a
@@ -142,84 +145,17 @@
               </tbody>
             </table>
           </div>
-  
-          <div class="cart-footer d-flex mt-100">
-            <div class="back-to-shop w-50">
-              <a href="{% url 'store' %}">Continue shooping</a>
-            </div>
-            <div class="update-checkout w-50 text-right">
-              <a href="#">clear cart</a>
-              <a href="#">Update cart</a>
-            </div>
-          </div>
+       
         </div>
       </div>
   
-      <div class="row d-flex justify-content-between">
-        <div class="col-12 col-md-6 col-lg-4 mt-5">
-          <div class="coupon-code-area mt-70">
-            <div class="cart-page-heading">
-              <h5>Cupon code</h5>
-              <p>Enter your cupone code</p>
-            </div>
-            <form action="#">
-              <input type="search" name="search" placeholder="#569ab15" />
-              <button type="submit">Apply</button>
-            </form>
-          </div>
+      <div class="row d-flex justify-content-between  align-items-center">
+       
+        <div class="back-to-shop w-25">
+          <a href="{% url 'store' %}">Continue shooping</a>
         </div>
-        {% comment %}
-        <div class="col-12 col-md-6 col-lg-4">
-          <div class="shipping-method-area mt-70">
-            <div class="cart-page-heading">
-              <h5>Shipping method</h5>
-              <p>Select the one you want</p>
-            </div>
-  
-            <div class="custom-control custom-radio mb-30">
-              <input
-                type="radio"
-                id="customRadio1"
-                name="customRadio"
-                class="custom-control-input"
-              />
-              <label
-                class="custom-control-label d-flex align-items-center justify-content-between"
-                for="customRadio1"
-                ><span>Next day delivery</span><span>$4.99</span></label
-              >
-            </div>
-  
-            <div class="custom-control custom-radio mb-30">
-              <input
-                type="radio"
-                id="customRadio2"
-                name="customRadio"
-                class="custom-control-input"
-              />
-              <label
-                class="custom-control-label d-flex align-items-center justify-content-between"
-                for="customRadio2"
-                ><span>Standard delivery</span><span>$1.99</span></label
-              >
-            </div>
-  
-            <div class="custom-control custom-radio">
-              <input
-                type="radio"
-                id="customRadio3"
-                name="customRadio"
-                class="custom-control-input"
-              />
-              <label
-                class="custom-control-label d-flex align-items-center justify-content-between"
-                for="customRadio3"
-                ><span>Personal Pickup</span><span>Free</span></label
-              >
-            </div>
-          </div>
-        </div>
-        {% endcomment %}
+       
+        
         <div class="col-12 col-lg-4">
           <div class="cart-total-area mt-50 ml-5">
             <div class="cart-page-heading">

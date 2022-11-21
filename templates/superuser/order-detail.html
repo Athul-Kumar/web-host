@@ -10,7 +10,7 @@ text-light
 
 
 {% block tablecontent %} 
-   Order managment
+   ORDER MANAGEMENT INFO
 {% endblock %}
 
 {% block maincontent %}
@@ -24,6 +24,18 @@ text-light
     </button>
   </div>  
   {% endfor%}
+
+
+
+
+<div class="mb-4">
+    <form action="{% url 'order-detail' %}" method="">
+        <input type="text" class="form-control text-white" style="width:250px ; display: inline;" placeholder="search..." name="query">
+        <button style="height:38px ;" class="btn btn-primary" type="submit">Search</button>
+    </form>
+    
+</div>
+
 
   <table class="table">
     <thead>
